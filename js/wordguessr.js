@@ -287,7 +287,12 @@ function wgBuildValidSet(len) {
 }
 
 function wgPickAnswer(theme, len) {
-    const pool = (WORD_BANK[theme][len] || []).filter(w => w.length === len);
+    const key = `wg-hist-${theme}-${len}`;
+    let history;
+    try { history = new Set(JSON.parse(localStorage.getItem(key) || '[]')); } catch { history = new Set(); }
+    const all = (WORD_BANK[theme][len] || []).filter(w => w.length === len);
+    const fresh = all.filter(w => !history.has(w));
+    const pool = fresh.length ? fresh : all;
     return pool[Math.floor(Math.random() * pool.length)].toLowerCase();
 }
 
@@ -483,6 +488,11 @@ function wgShowMessage(msg) {
 
 function wgEndGame(won) {
     wg.done = true;
+    try {
+        const key = `wg-hist-${wg.theme}-${wg.length}`;
+        const prev = JSON.parse(localStorage.getItem(key) || '[]');
+        localStorage.setItem(key, JSON.stringify([...new Set([...prev, wg.answer])].slice(-20)));
+    } catch {}
     const answer = wg.answer.toUpperCase();
     if (won) {
         const msgs = ['Genius!', 'Excellent!', 'Great job!', 'Nice!', 'Good', 'Phew!'];

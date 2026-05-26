@@ -2,58 +2,82 @@ const DG_DECADES = ['1950s', '1960s', '1970s', '1980s', '1990s', '2000s', '2010s
 
 const DG_CLUES = {
     '1950s': [
-        "Elvis Presley released 'Heartbreak Hotel' and became a global superstar",
         "Roger Bannister became the first person to run a mile in under 4 minutes",
         "Watson and Crick published their discovery of DNA's double helix structure",
-        "Disneyland opened its doors to the public in California",
         "The first commercial transatlantic jet passenger service began",
+        "The Soviet Union launched Sputnik, the first artificial satellite into space",
+        "The Korean War ended after three years of fighting on the peninsula",
+        "Elvis Presley released 'Heartbreak Hotel' and became a global superstar",
+        "Disneyland opened its doors to the public in California",
+        "A wave of rock and roll transformed youth culture around the world",
     ],
     '1960s': [
-        "Neil Armstrong became the first human to walk on the Moon",
+        "The Cuban Missile Crisis brought the world to the brink of nuclear war",
+        "Yuri Gagarin became the first human to travel into outer space",
+        "The first James Bond film Dr. No launched the world's most iconic spy franchise",
+        "The Berlin Wall was constructed, dividing East and West Germany",
         "Martin Luther King Jr. delivered his 'I Have a Dream' speech",
         "The Beatles appeared on The Ed Sullivan Show and sparked Beatlemania",
-        "The Berlin Wall was constructed, dividing East and West Germany",
         "Woodstock drew half a million people to a farm in New York",
+        "Neil Armstrong became the first human to walk on the Moon",
     ],
     '1970s': [
-        "Star Wars opened in cinemas and became an instant cultural phenomenon",
+        "Concorde made its first commercial transatlantic passenger flight",
+        "The world's first test-tube baby was born in England",
+        "The Atari 2600 launched, bringing video games into millions of living rooms",
         "The Watergate scandal forced a US president to resign for the first time",
         "ABBA won Eurovision with 'Waterloo' and became a global pop sensation",
         "The first personal computers went on sale to the public",
         "Saturday Night Fever brought disco fever to mainstream audiences worldwide",
+        "Star Wars opened in cinemas and became an instant cultural phenomenon",
     ],
     '1980s': [
-        "Michael Jackson's 'Thriller' became the best-selling album of all time",
-        "The Berlin Wall fell, reuniting East and West Germany",
+        "The CD was launched, revolutionising how people bought and played music",
+        "The Chernobyl nuclear reactor exploded, sending radiation across Europe",
+        "Nintendo released its Entertainment System, reviving the video game industry",
         "The Space Shuttle Challenger disaster shocked the world live on television",
         "Pac-Man became a global gaming obsession in arcades everywhere",
         "The first mobile phones became commercially available to consumers",
+        "Michael Jackson's 'Thriller' became the best-selling album of all time",
+        "The Berlin Wall fell, reuniting East and West Germany",
     ],
     '1990s': [
-        "The World Wide Web was opened to the public by Tim Berners-Lee",
+        "Nelson Mandela was released from prison and became South Africa's president",
+        "The Channel Tunnel opened, linking Britain and France for the first time",
+        "Google was founded in a garage and began indexing the entire internet",
         "Dolly the sheep became the first mammal cloned from an adult cell",
+        "The World Wide Web was opened to the public by Tim Berners-Lee",
         "Friends premiered on NBC and became one of the most-watched shows ever",
-        "The Sony PlayStation launched and revolutionised home gaming",
         "The Spice Girls dominated global pop charts and coined 'Girl Power'",
+        "The Sony PlayStation launched and revolutionised home gaming",
     ],
     '2000s': [
-        "Apple released the iPod, transforming how people listen to music",
+        "The September 11 attacks in New York changed global politics and security forever",
+        "Wikipedia launched, becoming the world's largest volunteer-written encyclopaedia",
         "Facebook was founded by Mark Zuckerberg in a Harvard dorm room",
         "YouTube launched, allowing anyone to upload and share videos online",
-        "Steve Jobs unveiled the first iPhone, calling it 'an iPod, a phone, and the internet'",
+        "Apple released the iPod, transforming how people listen to music",
         "Twitter launched, introducing the world to the concept of the 'tweet'",
+        "Steve Jobs unveiled the first iPhone, calling it 'an iPod, a phone, and the internet'",
+        "Harry Potter and Lord of the Rings made blockbuster fantasy cinema mainstream",
     ],
     '2010s': [
+        "The Arab Spring swept across the Middle East, toppling long-standing governments",
+        "Same-sex marriage was legalised in the United States by a landmark Supreme Court ruling",
         "Instagram launched as a photo-sharing app and was bought by Facebook for $1 billion",
-        "Pokémon Go caused millions to wander the streets staring at their phones",
-        "Game of Thrones premiered on HBO and became a global cultural event",
         "The Ice Bucket Challenge went viral and raised over $100 million for ALS research",
+        "Game of Thrones premiered on HBO and became a global cultural event",
+        "Pokémon Go caused millions to wander the streets staring at their phones",
         "Bitcoin surpassed $10,000 in value for the first time",
+        "TikTok launched globally and became the most downloaded app in history",
     ],
     '2020s': [
+        "The mRNA COVID vaccines were developed in record time and distributed globally",
+        "Russia's invasion of Ukraine began the largest land war in Europe since 1945",
+        "The FIFA World Cup was hosted in the Middle East for the very first time, in Qatar",
         "A global pandemic caused lockdowns and border closures across the world",
-        "ChatGPT launched and reached one million users in just five days",
         "The James Webb Space Telescope captured the deepest images of the early universe",
+        "ChatGPT launched and reached one million users in just five days",
         "Taylor Swift's Eras Tour became the highest-grossing concert tour in history",
         "Generative AI began creating images, music, and video indistinguishable from human work",
     ],
@@ -62,10 +86,10 @@ const DG_CLUES = {
 const DG_ROUNDS = 10;
 const DG_PTS    = [500, 300, 100];
 
-let dg = { round: 0, score: 0, done: false, usedIndices: new Set(), current: null, clueIdx: 0 };
+let dg = { round: 0, score: 0, done: false, usedIndices: new Set(), current: null, clueIdx: 0, clueOffset: 0 };
 
 function dgReset() {
-    dg = { round: 0, score: 0, done: false, usedIndices: new Set(), current: null, clueIdx: 0 };
+    dg = { round: 0, score: 0, done: false, usedIndices: new Set(), current: null, clueIdx: 0, clueOffset: 0 };
 }
 
 function dgPickDecade() {
@@ -84,9 +108,9 @@ function dgPickOptions(correct) {
 
 function dgUpdateClue() {
     const clues  = DG_CLUES[dg.current];
-    const maxIdx = Math.min(DG_PTS.length - 1, clues.length - 1);
+    const maxIdx = DG_PTS.length - 1;
 
-    document.getElementById('dg-clue').textContent     = clues[dg.clueIdx];
+    document.getElementById('dg-clue').textContent     = clues[dg.clueOffset + dg.clueIdx];
     document.getElementById('dg-clue-num').textContent = `Clue ${dg.clueIdx + 1}`;
     document.getElementById('dg-pts').textContent      = DG_PTS[dg.clueIdx] + ' pts';
 
@@ -110,6 +134,8 @@ function dgStartRound() {
     dg.done    = false;
     dg.clueIdx = 0;
     dg.current = dgPickDecade();
+    const clues = DG_CLUES[dg.current];
+    dg.clueOffset = Math.floor(Math.random() * (clues.length - DG_PTS.length + 1));
 
     document.getElementById('dg-round').textContent    = dg.round;
     document.getElementById('dg-score').textContent    = dg.score.toLocaleString();
