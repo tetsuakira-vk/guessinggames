@@ -29,6 +29,18 @@ const BL_LOGOS = [
     { name: 'Dropbox',     slug: 'dropbox'    },
     { name: 'Snapchat',    slug: 'snapchat'   },
     { name: 'LinkedIn',    slug: 'linkedin'   },
+    { name: 'Starbucks',   slug: 'starbucks'  },
+    { name: 'BMW',         slug: 'bmw'        },
+    { name: 'Toyota',      slug: 'toyota'     },
+    { name: 'Pepsi',       slug: 'pepsi'      },
+    { name: 'OpenAI',      slug: 'openai'     },
+    { name: 'Zoom',        slug: 'zoom'       },
+    { name: 'Pinterest',   slug: 'pinterest'  },
+    { name: 'Steam',       slug: 'steam'      },
+    { name: 'Xbox',        slug: 'xbox'       },
+    { name: 'Roblox',      slug: 'roblox'     },
+    { name: 'Figma',       slug: 'figma'      },
+    { name: 'Notion',      slug: 'notion'     },
 ];
 
 const BL_ROUNDS = 10;

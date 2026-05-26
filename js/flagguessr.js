@@ -136,9 +136,12 @@ let fg = {
 };
 
 function fgReset() {
+    let recentIndices;
+    try { recentIndices = new Set(JSON.parse(localStorage.getItem('fg-hist') || '[]')); } catch { recentIndices = new Set(); }
+    if (FLAG_COUNTRIES.length - recentIndices.size < FG_ROUNDS) recentIndices = new Set();
     fg = {
         round: 0, totalScore: 0, results: [],
-        usedIndices: new Set(), country: null,
+        usedIndices: recentIndices, country: null,
         attemptsLeft: FG_MAX_ATTEMPTS, done: false,
         prevDistance: null,
     };
@@ -268,6 +271,11 @@ function fgEndRound() {
 }
 
 function fgShowFinal() {
+    try {
+        const prev = JSON.parse(localStorage.getItem('fg-hist') || '[]');
+        const next = [...new Set([...prev, ...fg.usedIndices])].slice(-25);
+        localStorage.setItem('fg-hist', JSON.stringify(next));
+    } catch {}
     document.getElementById('fg-game-area').classList.add('hidden');
     const finalEl = document.getElementById('fg-final');
     finalEl.classList.remove('hidden');
