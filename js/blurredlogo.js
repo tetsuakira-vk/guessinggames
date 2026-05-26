@@ -7,7 +7,7 @@ const BL_LOGOS = [
     { name: 'Spotify',     slug: 'spotify'    },
     { name: 'YouTube',     slug: 'youtube'    },
     { name: 'Instagram',   slug: 'instagram'  },
-    { name: 'Facebook',    slug: 'facebook'   },
+    { name: 'WhatsApp',    slug: 'whatsapp'   },
     { name: 'Samsung',     slug: 'samsung'    },
     { name: 'Microsoft',   slug: 'microsoft'  },
     { name: 'Tesla',       slug: 'tesla'      },
@@ -25,7 +25,7 @@ const BL_LOGOS = [
     { name: 'PayPal',      slug: 'paypal'     },
     { name: 'Coca-Cola',   slug: 'cocacola'   },
     { name: "McDonald's",  slug: 'mcdonalds'  },
-    { name: 'Twitter',     slug: 'x'          },
+    { name: 'Twitch',      slug: 'twitch'     },
     { name: 'Dropbox',     slug: 'dropbox'    },
     { name: 'Snapchat',    slug: 'snapchat'   },
     { name: 'LinkedIn',    slug: 'linkedin'   },
@@ -53,6 +53,21 @@ function blPickOptions(correct) {
     const wrong = BL_LOGOS.filter(l => l.name !== correct.name)
         .sort(() => Math.random() - 0.5).slice(0, 3);
     return [...wrong, correct].sort(() => Math.random() - 0.5);
+}
+
+function blLoadLogo(retries) {
+    retries = retries === undefined ? 3 : retries;
+    const img = document.getElementById('bl-logo');
+    img.onerror = null;
+    if (retries > 0) {
+        img.onerror = () => {
+            img.onerror = null;
+            bl.current = blPickLogo();
+            blRenderOptions();
+            blLoadLogo(retries - 1);
+        };
+    }
+    img.src = `https://cdn.simpleicons.org/${bl.current.slug}`;
 }
 
 function blUpdateBlur() {
@@ -89,9 +104,7 @@ function blStartRound() {
     document.getElementById('bl-feedback').className   = 'bl-feedback';
     document.getElementById('bl-next-btn').classList.add('hidden');
 
-    const img = document.getElementById('bl-logo');
-    img.src = `https://cdn.simpleicons.org/${bl.current.slug}/000000`;
-
+    blLoadLogo();
     blUpdateBlur();
     blRenderOptions();
 }
@@ -109,8 +122,9 @@ function blAnswer(chosen) {
     const correct    = chosen === bl.current.name;
     const feedbackEl = document.getElementById('bl-feedback');
 
-    // Reveal the logo fully
-    document.getElementById('bl-logo').style.filter = 'blur(0px)';
+    const img = document.getElementById('bl-logo');
+    img.onerror = null;
+    img.style.filter = 'blur(0px)';
     document.getElementById('bl-reveal-btn').classList.add('hidden');
 
     document.querySelectorAll('.bl-option-btn').forEach(btn => {
