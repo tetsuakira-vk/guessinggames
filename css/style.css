@@ -623,6 +623,9 @@ html, body {
     .fg-game { gap: 0.8rem; padding-top: 4.5rem; }
     .wg-tile { font-size: 1.25rem; }
     .wg-game { gap: 0.5rem; }
+    .wg-kb-row { gap: 3px; }
+    .wg-key { height: 50px; font-size: 0.83rem; }
+    .wg-key--wide { font-size: 0.67rem; }
     .back-btn { width: 2.75rem; height: 2.75rem; }
     .hol-cards { gap: 0.65rem; }
     .hol-card { padding: 0.9rem 0.5rem; gap: 0.5rem; border-radius: 12px; }
@@ -1024,14 +1027,6 @@ html, body {
 .bl-option-btn:disabled { cursor: default; }
 .bl-option--correct { border-color: var(--green) !important; background: rgba(34,197,94,0.12) !important; color: var(--green) !important; }
 .bl-option--wrong   { border-color: #f87171 !important; background: rgba(248,113,113,0.10) !important; color: #f87171 !important; }
-
-/* ── Small-phone keyboard (portrait) ────────────────────────── */
-@media (max-width: 520px) {
-    .wg-kb-row { gap: 3px; }
-    .wg-keyboard { gap: 6px; }
-    .wg-key { height: 50px; font-size: 0.85rem; }
-    .wg-key--wide { font-size: 0.68rem; }
-}
 
 /* ── Landscape mobile (short viewport) ──────────────────────── */
 @media (max-height: 500px) {
