@@ -622,7 +622,6 @@ html, body {
     .fg-flag { max-height: 30vh; }
     .fg-game { gap: 0.8rem; padding-top: 4.5rem; }
     .wg-tile { font-size: 1.25rem; }
-    .wg-key { height: 46px; font-size: 0.8rem; }
     .wg-game { gap: 0.5rem; }
     .back-btn { width: 2.75rem; height: 2.75rem; }
     .hol-cards { gap: 0.65rem; }
@@ -635,6 +634,10 @@ html, body {
     .lg-phrase-wrap { padding: 1.2rem; }
     .conn-tile { font-size: 0.7rem; min-height: 52px; padding: 0.65rem 0.3rem; }
     .conn-grid { gap: 0.35rem; }
+    .bl-logo-wrap { width: 180px; height: 180px; padding: 1.4rem; }
+    .bl-logo { width: 110px; height: 110px; }
+    .dg-clue-wrap { padding: 1.3rem; }
+    .dg-clue { font-size: 0.95rem; }
 }
 
 /* ── Higher or Lower ─────────────────────────────────────────── */
@@ -843,6 +846,192 @@ html, body {
     transition: background 0.25s, border-color 0.25s;
 }
 .conn-mistake-dot--used { background: #f87171; border-color: #f87171; }
+
+/* ── Map Outline ─────────────────────────────────────────────── */
+#map-screen.active { display: flex; flex-direction: column; background: var(--bg); }
+
+.mo-game {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 1.2rem;
+    padding: 5rem 1.5rem 2rem; overflow-y: auto;
+}
+.mo-game.hidden { display: none; }
+
+.mo-loading {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 0.8rem; color: var(--muted); font-size: 0.9rem;
+}
+.mo-loading.hidden { display: none; }
+
+.mo-canvas {
+    border-radius: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    max-width: 100%;
+    display: block;
+}
+
+.mo-feedback {
+    font-size: 1rem; font-weight: 700; min-height: 1.4em; text-align: center;
+}
+.mo-feedback--correct { color: var(--green); }
+.mo-feedback--wrong   { color: #f87171; }
+
+.mo-options {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.65rem; width: 100%; max-width: 440px;
+}
+
+.mo-option-btn {
+    padding: 0.9rem 0.6rem;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text); font-size: 0.88rem; font-weight: 600;
+    cursor: pointer; text-align: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+.mo-option-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.10); border-color: var(--accent);
+    transform: translateY(-1px);
+}
+.mo-option-btn:disabled { cursor: default; }
+.mo-option--correct { border-color: var(--green) !important; background: rgba(34,197,94,0.12) !important; color: var(--green) !important; }
+.mo-option--wrong   { border-color: #f87171 !important; background: rgba(248,113,113,0.10) !important; color: #f87171 !important; }
+
+/* ── Decade Guessr ───────────────────────────────────────────── */
+#decade-screen.active { display: flex; flex-direction: column; background: var(--bg); }
+
+.dg-game {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 1.4rem;
+    padding: 5rem 1.5rem 2rem; overflow-y: auto;
+}
+.dg-game.hidden { display: none; }
+
+.dg-clue-wrap {
+    width: 100%; max-width: 600px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 16px; padding: 2rem; text-align: center;
+    display: flex; flex-direction: column; gap: 0.75rem;
+}
+
+.dg-clue-num {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
+}
+
+.dg-clue {
+    font-size: clamp(1rem, 3vw, 1.2rem); line-height: 1.7; font-weight: 500;
+}
+
+.dg-meta-row {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 600px; gap: 1rem;
+}
+
+.dg-pts {
+    font-size: 1rem; font-weight: 900; color: var(--accent); flex-shrink: 0;
+}
+
+.dg-feedback {
+    font-size: 1rem; font-weight: 700; min-height: 1.4em; text-align: center;
+}
+.dg-feedback--correct { color: var(--green); }
+.dg-feedback--wrong   { color: #f87171; }
+
+.dg-options {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.65rem; width: 100%; max-width: 480px;
+}
+
+.dg-option-btn {
+    padding: 1rem 0.75rem;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text); font-size: 0.95rem; font-weight: 700;
+    cursor: pointer; text-align: center; letter-spacing: 0.02em;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+.dg-option-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.10); border-color: var(--accent);
+    transform: translateY(-1px);
+}
+.dg-option-btn:disabled { cursor: default; }
+.dg-option--correct { border-color: var(--green) !important; background: rgba(34,197,94,0.12) !important; color: var(--green) !important; }
+.dg-option--wrong   { border-color: #f87171 !important; background: rgba(248,113,113,0.10) !important; color: #f87171 !important; }
+
+/* ── Blurred Logo ────────────────────────────────────────────── */
+#blur-screen.active { display: flex; flex-direction: column; background: var(--bg); }
+
+.bl-game {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 1.2rem;
+    padding: 5rem 1.5rem 2rem; overflow-y: auto;
+}
+.bl-game.hidden { display: none; }
+
+.bl-logo-wrap {
+    background: #fff;
+    border-radius: 20px; padding: 2rem;
+    width: 220px; height: 220px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 48px rgba(0,0,0,0.35);
+    flex-shrink: 0;
+}
+
+.bl-logo {
+    width: 140px; height: 140px;
+    object-fit: contain;
+    transition: filter 0.45s ease;
+}
+
+.bl-meta-row {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; max-width: 480px; gap: 1rem;
+}
+
+.bl-pts {
+    font-size: 1rem; font-weight: 900; color: var(--accent); flex-shrink: 0;
+}
+
+.bl-feedback {
+    font-size: 1rem; font-weight: 700; min-height: 1.4em; text-align: center;
+}
+.bl-feedback--correct { color: var(--green); }
+.bl-feedback--wrong   { color: #f87171; }
+
+.bl-options {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 0.65rem; width: 100%; max-width: 480px;
+}
+
+.bl-option-btn {
+    padding: 1rem 0.75rem;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    color: var(--text); font-size: 0.9rem; font-weight: 600;
+    cursor: pointer; text-align: center;
+    transition: background 0.15s, border-color 0.15s, transform 0.12s;
+}
+.bl-option-btn:hover:not(:disabled) {
+    background: rgba(255,255,255,0.10); border-color: var(--accent);
+    transform: translateY(-1px);
+}
+.bl-option-btn:disabled { cursor: default; }
+.bl-option--correct { border-color: var(--green) !important; background: rgba(34,197,94,0.12) !important; color: var(--green) !important; }
+.bl-option--wrong   { border-color: #f87171 !important; background: rgba(248,113,113,0.10) !important; color: #f87171 !important; }
+
+/* ── Small-phone keyboard (portrait) ────────────────────────── */
+@media (max-width: 520px) {
+    .wg-kb-row { gap: 3px; }
+    .wg-keyboard { gap: 6px; }
+    .wg-key { height: 50px; font-size: 0.85rem; }
+    .wg-key--wide { font-size: 0.68rem; }
+}
 
 /* ── Landscape mobile (short viewport) ──────────────────────── */
 @media (max-height: 500px) {
