@@ -17,10 +17,23 @@ function initPanorama(imageUrl, onLoad, onError) {
         return;
     }
 
+    let settled = false;
+    const fallbackTimer = setTimeout(() => {
+        if (!settled) { settled = true; destroyPanorama(); _cssFallback(imageUrl, onLoad, onError); }
+    }, 12000);
+
+    const settle = (fn) => (...args) => {
+        if (settled) return;
+        settled = true;
+        clearTimeout(fallbackTimer);
+        fn(...args);
+    };
+
     try {
         _viewer = pannellum.viewer('panorama-container', {
             type: 'equirectangular',
             panorama: imageUrl,
+            crossOrigin: 'anonymous',
             autoLoad: true,
             showControls: false,
             compass: false,
@@ -29,10 +42,12 @@ function initPanorama(imageUrl, onLoad, onError) {
             minHfov: 50,
             maxHfov: 120,
             autoRotate: 0,
-            onLoad: () => { if (onLoad) onLoad(); },
-            onError: () => { destroyPanorama(); _cssFallback(imageUrl, onLoad, onError); },
+            onLoad:  settle(() => { if (onLoad)  onLoad(); }),
+            onError: settle(() => { destroyPanorama(); _cssFallback(imageUrl, onLoad, onError); }),
         });
     } catch (_) {
+        settled = true;
+        clearTimeout(fallbackTimer);
         _cssFallback(imageUrl, onLoad, onError);
     }
 }
