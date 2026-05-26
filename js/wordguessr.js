@@ -298,7 +298,7 @@ function wgBuildGrid() {
     grid.innerHTML = '';
     const ideal = { 4: 68, 5: 62, 6: 52 }[wg.length] || 62;
     const maxFromWidth = Math.floor((Math.min(window.innerWidth, 500) - 48) / wg.length);
-    const maxFromHeight = Math.floor((window.innerHeight - 280) / WG_MAX_ATTEMPTS);
+    const maxFromHeight = Math.max(30, Math.floor((window.innerHeight - 330) / WG_MAX_ATTEMPTS));
     const tileSize = Math.min(ideal, maxFromWidth, maxFromHeight, 68);
     grid.style.setProperty('--wg-tile', tileSize + 'px');
     for (let r = 0; r < WG_MAX_ATTEMPTS; r++) {
