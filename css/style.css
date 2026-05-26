@@ -551,6 +551,8 @@ html, body {
     gap: 5px; align-items: center;
     flex-shrink: 0; margin-top: auto;
     padding-bottom: 0.5rem;
+    position: sticky; bottom: 0;
+    background: var(--bg);
 }
 .wg-key:active { transform: scale(0.93); }
 .wg-key--correct { background: var(--green); color: #fff; }

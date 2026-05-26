@@ -64,14 +64,14 @@ async function moLoadData() {
     try {
         let topo;
         const CACHE_KEY = 'mo-world-atlas-110m-v2';
-        const cached = sessionStorage.getItem(CACHE_KEY);
+        const cached = localStorage.getItem(CACHE_KEY);
         if (cached) {
             topo = JSON.parse(cached);
         } else {
             const r = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
             if (!r.ok) throw new Error('fetch failed');
             topo = await r.json();
-            try { sessionStorage.setItem(CACHE_KEY, JSON.stringify(topo)); } catch (_) {}
+            try { localStorage.setItem(CACHE_KEY, JSON.stringify(topo)); } catch (_) {}
         }
         const geo = topojson.feature(topo, topo.objects.countries);
         geo.features.forEach(f => { _moFeatures[+f.id] = f; });
